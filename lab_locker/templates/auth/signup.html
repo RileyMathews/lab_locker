@@ -1,0 +1,13 @@
+{# type form: django.forms.Form #}
+{% extends "base.html" %}
+
+
+{% block base_body %}
+<h1>Sign Up</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">Sign Up</button>
+</form>
+{% endblock %}
+

@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block head_meta %}
+        <title>Lab Locker</title>
+        {% endblock head_meta %}
+        <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+    </head>
+    <body hx-boost="true">
+        {% block base_body %}{% endblock %}
+    </body>
+</html>
+
