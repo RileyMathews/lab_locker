@@ -1,14 +1,16 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.http import HttpRequest, HttpResponse
-from lab_locker.models import User
 from django.shortcuts import redirect, render
-
+from lab_locker.types import is_authenticated_user
+from lab_locker.models import User
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
+
+
 
 class SigninForm(forms.Form):
     username = forms.CharField(max_length=150)
@@ -16,7 +18,8 @@ class SigninForm(forms.Form):
 
 
 def signup_view(request: HttpRequest) -> HttpResponse:
-    if request.user.is_authenticated:
+    if is_authenticated_user(request.user):
+        request.user
         return redirect("index")
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
@@ -29,7 +32,7 @@ def signup_view(request: HttpRequest) -> HttpResponse:
     return render(request, "auth/signup.html", {"form": form})
 
 def signin_view(request: HttpRequest) -> HttpResponse:
-    if request.user.is_authenticated:
+    if is_authenticated_user(request.user):
         return redirect("index")
     if request.method == "POST":
         form = SigninForm(request.POST)
@@ -44,3 +47,7 @@ def signin_view(request: HttpRequest) -> HttpResponse:
     else:
         form = SigninForm()
     return render(request, "auth/signin.html", {"form": form})
+
+def signout_view(request):
+    logout(request)
+    return redirect("index")

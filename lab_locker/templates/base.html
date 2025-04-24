@@ -1,3 +1,4 @@
+{# type request: django.http.HttpRequest #}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -5,12 +6,19 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% block head_meta %}
-        <title>Lab Locker</title>
+            <title>Lab Locker</title>
         {% endblock head_meta %}
         <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
     </head>
     <body hx-boost="true">
+        <nav>
+            {% if not request.user.is_authenticated %}
+                <a href="{% url 'signup' %}">Sign Up</a>
+                <a href="{% url 'signin' %}">Sign In</a>
+            {% else %}
+                <a href="{% url 'signout' %}">Sign Out</a>
+            {% endif %}
+        </nav>
         {% block base_body %}{% endblock %}
     </body>
 </html>
-
